@@ -1,7 +1,18 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Link } from "react-router-dom";
+import { AuthContext } from "../providers/AuthProver";
+import toast from "react-hot-toast";
 
 const Navbar = () => {
+  const { user, logOut } = useContext(AuthContext);
+  const handleLogout = () => {
+    logOut()
+      .then(() => {
+        toast.success("Logged out");
+      })
+      .then((error) => console.log(error));
+  };
+
   const navOptions = (
     <>
       <li>
@@ -13,9 +24,20 @@ const Navbar = () => {
       <li>
         <Link to="/order/salad">Order</Link>
       </li>
-      <li>
-        <Link to="login">Login</Link>
-      </li>
+
+      {/* {user ? (
+        <>
+          <button onClick={handleLogout} className="btn btn-ghost">
+            Logout
+          </button>
+        </>
+      ) : (
+        <>
+          <li>
+            <Link to="login">Login</Link>
+          </li>
+        </>
+      )} */}
     </>
   );
   return (
@@ -52,7 +74,44 @@ const Navbar = () => {
         <ul className="menu menu-lg menu-horizontal px-1">{navOptions}</ul>
       </div>
       <div className="navbar-end">
-        <a className="btn">Button</a>
+        {!user && (
+          <li>
+            <Link to="/login">Login</Link>
+          </li>
+        )}
+        {user && (
+          <div>
+            <div className="dropdown dropdown-end z-50">
+              <div
+                tabIndex={0}
+                role="button"
+                className="btn btn-ghost btn-circle avatar"
+              >
+                <div title={user?.displayName} className="w-10 rounded-full">
+                  <img
+                    referrerPolicy="no-referrer"
+                    alt="User Profile Photo"
+                    src={user?.photoURL}
+                  />
+                </div>
+              </div>
+              <ul
+                tabIndex={0}
+                className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-red-500 rounded-box w-52"
+              >
+                <li className="mt-2">
+                  <h2>{user?.displayName}</h2>
+                  <button
+                    onClick={handleLogout}
+                    className="btn btn-sm border-0 btn-block bg-red-700 text-center text-white"
+                  >
+                    Logout
+                  </button>
+                </li>
+              </ul>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

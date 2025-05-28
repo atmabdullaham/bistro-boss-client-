@@ -6,14 +6,16 @@ import Navbar from "../components/Navbar";
 const Layout = () => {
   const location = useLocation();
   console.log("Current location:", location.pathname);
-  const noHeaderFooter = location.pathname.includes("/login");
+  const login = location.pathname.includes("/login");
+  const signup = location.pathname.includes("/signup");
+
   return (
     <div className="max-w-screen-xl mx-auto">
       {/* Navbar */}
-      {noHeaderFooter || <Navbar></Navbar>}
+      {login || signup || <Navbar></Navbar>}
       <Outlet> {/* Pages */}</Outlet>
       {/* Footer */}
-      {noHeaderFooter || <Footer></Footer>}
+      {login || signup || <Footer></Footer>}
     </div>
   );
 };
