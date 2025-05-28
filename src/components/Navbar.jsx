@@ -2,6 +2,7 @@ import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../providers/AuthProver";
 import toast from "react-hot-toast";
+import { FaCartArrowDown } from "react-icons/fa";
 
 const Navbar = () => {
   const { user, logOut } = useContext(AuthContext);
@@ -23,6 +24,14 @@ const Navbar = () => {
       </li>
       <li>
         <Link to="/order/salad">Order</Link>
+      </li>
+      <li>
+        <Link>
+          <button className="btn bg-transparent border-0 shadow-none">
+            <FaCartArrowDown className="text-white"></FaCartArrowDown>{" "}
+            <div className="badge badge-sm badge-secondary">+0</div>
+          </button>
+        </Link>
       </li>
 
       {/* {user ? (
